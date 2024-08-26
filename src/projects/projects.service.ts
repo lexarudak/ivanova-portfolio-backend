@@ -21,8 +21,8 @@ export class ProjectsService {
     );
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
+  findOne(id: string) {
+    return MOCK_PROJECTS.find((project) => project.id === id);
   }
 
   update(id: number, updateProjectDto: UpdateProjectDto) {
