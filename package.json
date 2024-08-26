@@ -1,0 +1,19 @@
+{
+  "name": "ivanova-portfolio-backend",
+  "version": "1.0.0",
+  "description": "backend for ivanova portfolio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lexarudak/ivanova-portfolio-backend.git"
+  },
+  "author": "rudak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lexarudak/ivanova-portfolio-backend/issues"
+  },
+  "homepage": "https://github.com/lexarudak/ivanova-portfolio-backend#readme"
+}
