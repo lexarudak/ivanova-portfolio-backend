@@ -11,10 +11,10 @@ import { Experience } from './entities/experience.entity';
 export class AboutService {
   constructor(
     @InjectRepository(About)
-    @InjectRepository(Education)
-    @InjectRepository(Experience)
     private readonly aboutRepository: Repository<About>,
+    @InjectRepository(Education)
     private readonly educationRepository: Repository<Education>,
+    @InjectRepository(Experience)
     private readonly experienceRepository: Repository<Experience>,
   ) {}
 
