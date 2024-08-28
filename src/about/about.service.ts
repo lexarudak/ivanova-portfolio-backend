@@ -1,16 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAboutDto } from './dto/create-about.dto';
+import { CreateInfoDto } from './dto/create-info.dto';
 import { UpdateAboutDto } from './dto/update-about.dto';
-import { MOCK_ABOUT } from 'src/mock/mock-about';
+import { InjectRepository } from '@nestjs/typeorm';
+import { About } from './entities/about.entity';
+import { Repository } from 'typeorm';
+import { Education } from './entities/education.entity';
+import { Experience } from './entities/experience.entity';
 
 @Injectable()
 export class AboutService {
-  create(createAboutDto: CreateAboutDto) {
-    return 'This action adds a new about';
+  constructor(
+    @InjectRepository(About)
+    @InjectRepository(Education)
+    @InjectRepository(Experience)
+    private readonly aboutRepository: Repository<About>,
+    private readonly educationRepository: Repository<Education>,
+    private readonly experienceRepository: Repository<Experience>,
+  ) {}
+
+  async createInfo({ title, image, info }: CreateInfoDto) {
+    const existAbout = await this.aboutRepository.findOne({
+      where: {
+        id: 'about',
+      },
+    });
+
+    const newAbout = { ...existAbout, id: 'about', title, image, info };
+
+    await this.aboutRepository.save(newAbout);
+
+    return newAbout;
   }
 
-  get() {
-    return MOCK_ABOUT;
+  async get() {
+    const [[about], experience, education] = await Promise.all([
+      this.aboutRepository.find(),
+      this.educationRepository.find(),
+      this.experienceRepository.find(),
+    ]);
+    return { ...about, experience, education };
   }
 
   findOne(id: number) {

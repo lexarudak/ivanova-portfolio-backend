@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { AboutService } from './about.service';
-import { CreateAboutDto } from './dto/create-about.dto';
+import { CreateAboutDto } from './dto/create-info.dto';
 import { UpdateAboutDto } from './dto/update-about.dto';
 
 @Controller('about')
