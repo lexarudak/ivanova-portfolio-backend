@@ -1,17 +1,18 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Experience } from './experience.entity';
 import { Education } from './education.entity';
+import { Skills } from './skills.entity';
 
 @Entity()
 export class About {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: string;
 
   @Column()
   title: string;
 
   @Column()
-  value: string;
+  image: string;
 
   @Column()
   location: string;
@@ -22,11 +23,8 @@ export class About {
   @Column()
   about: string;
 
-  @Column('json')
-  skills: {
-    title: string;
-    list: string;
-  }[];
+  @OneToMany(() => Skills, ({ id }) => id)
+  skills: Skills[];
 
   @OneToMany(() => Experience, ({ id }) => id)
   experience: Experience[];

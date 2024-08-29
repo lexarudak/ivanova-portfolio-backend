@@ -14,3 +14,9 @@ export enum BLOCK_TYPE {
   halfImage = 'half-image',
   halfImageRight = 'half-image-right',
 }
+
+export enum SKILLS_TYPE {
+  advanced = 'advanced',
+  intermediate = 'intermediate',
+  novice = 'novice',
+}

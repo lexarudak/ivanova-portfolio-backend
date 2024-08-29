@@ -8,7 +8,6 @@ import {
   Delete,
 } from '@nestjs/common';
 import { AboutService } from './about.service';
-import { CreateInfoDto } from './dto/create-info.dto';
 import { UpdateAboutDto } from './dto/update-about.dto';
 
 @Controller('about')
@@ -16,8 +15,8 @@ export class AboutController {
   constructor(private readonly aboutService: AboutService) {}
 
   @Post()
-  create(@Body() createAboutDto: CreateInfoDto) {
-    return this.aboutService.createInfo(createAboutDto);
+  updateAbout(@Body() createAboutDto: UpdateAboutDto) {
+    return this.aboutService.updateAbout(createAboutDto);
   }
 
   @Get()

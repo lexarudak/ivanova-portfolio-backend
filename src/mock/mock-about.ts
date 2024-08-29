@@ -1,21 +1,19 @@
 export const MOCK_ABOUT = {
+  id: 'about',
   title: 'Darya Ivanova',
   image: '/ivanova.png',
-  info: {
-    location: 'Almaty, Kazakhstan',
-    languages: ['English C1', 'Spanish B1', 'Russian Native'],
+  location: 'Almaty, Kazakhstan',
+  languages: ['English C1', 'Spanish B1', 'Russian Native'],
+  about:
+    'As a young and driven architect with 8 years of experience using Revit, SketchUp, and Enscape, I have taken part in a wide range of projects, from large residential communities to private homes and apartments. Architecture plays a major role in my life and I am always eager to tackle new projects and challenges.',
+};
+
+export const MOCK_OTHER = {
+  skills: {
+    advanced: ['Revit', 'SketchUp', 'Enscape', 'AutoCAD', 'Notion'],
+    intermediate: ['ArchiCAD', 'Adobe Photoshop', 'CorelDRAW'],
+    novice: ['Figma'],
   },
-  skills: [
-    {
-      title: 'Advanced',
-      list: ['Revit', 'SketchUp', 'Enscape', 'AutoCAD', 'Notion'],
-    },
-    {
-      title: 'Intermediate',
-      list: ['ArchiCAD', 'Adobe Photoshop', 'CorelDRAW'],
-    },
-    { title: 'Novice', list: ['Figma'] },
-  ],
   experience: [
     {
       title: 'L80',
@@ -56,8 +54,6 @@ export const MOCK_ABOUT = {
       ],
     },
   ],
-  about:
-    'As a young and driven architect with 8 years of experience using Revit, SketchUp, and Enscape, I have taken part in a wide range of projects, from large residential communities to private homes and apartments. Architecture plays a major role in my life and I am always eager to tackle new projects and challenges.',
   education: [
     {
       title: 'Belorussian National Technical University',
