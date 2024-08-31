@@ -1,14 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AboutService } from './about.service';
-import { UpdateAboutDto } from './dto/update-about.dto';
+import { UpdateAboutDto, UpdateSkillsDto } from './dto/about.dto';
 
 @Controller('about')
 export class AboutController {
@@ -19,23 +11,13 @@ export class AboutController {
     return this.aboutService.updateAbout(createAboutDto);
   }
 
+  @Post('skills')
+  updateSkills(@Body() skillsDto: UpdateSkillsDto) {
+    return this.aboutService.updateSkills(skillsDto);
+  }
+
   @Get()
   get() {
     return this.aboutService.get();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.aboutService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAboutDto: UpdateAboutDto) {
-    return this.aboutService.update(+id, updateAboutDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.aboutService.remove(+id);
   }
 }

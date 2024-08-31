@@ -8,7 +8,6 @@ export class ContactsController {
 
   @Post()
   create(@Body() createContactDto: CreateContactDto) {
-    console.log(createContactDto);
     return this.contactsService.create(createContactDto);
   }
 

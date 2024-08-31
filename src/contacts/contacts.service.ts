@@ -12,7 +12,6 @@ export class ContactsService {
   ) {}
 
   async create({ contacts }: CreateContactDto) {
-    console.log({ contacts });
     await this.contactsRepository.clear();
 
     const promises = contacts.map((contact) =>

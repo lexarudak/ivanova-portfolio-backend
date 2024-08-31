@@ -24,3 +24,9 @@ export type ExperienceData = {
   workType?: string;
   achievements?: string[];
 };
+
+export type SkillsData = {
+  advanced: string[];
+  intermediate: string[];
+  novice: string[];
+};

@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInfoDto } from './dto/create-info.dto';
-import { UpdateAboutDto } from './dto/update-about.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { About } from './entities/about.entity';
 import { Repository } from 'typeorm';
@@ -9,6 +7,11 @@ import { Experience } from './entities/experience.entity';
 import { MOCK_ABOUT } from 'src/mock/mock-about';
 import { Skills } from './entities/skills.entity';
 import { SKILLS_TYPE } from 'src/shared/constants';
+import {
+  CreateInfoDto,
+  UpdateAboutDto,
+  UpdateSkillsDto,
+} from './dto/about.dto';
 
 @Injectable()
 export class AboutService {
@@ -29,21 +32,16 @@ export class AboutService {
   }
 
   async getExistAbout() {
-    console.log('ss');
-    const existAbout = await this.aboutRepository.findOne({
-      where: {
-        id: 'about',
-      },
+    const existAbout = await this.aboutRepository.findBy({
+      id: 'about',
     });
 
     return { ...this.initialAbout, ...existAbout };
   }
 
   async createInfo({ title, image, info }: CreateInfoDto) {
-    const existAbout = await this.aboutRepository.findOne({
-      where: {
-        id: 'about',
-      },
+    const existAbout = await this.aboutRepository.findBy({
+      id: 'about',
     });
 
     const newAbout = { ...existAbout, id: 'about', title, image, info };
@@ -60,46 +58,54 @@ export class AboutService {
     return { about };
   }
 
+  orderSkills(allSkills: Skills[]) {
+    const skills = allSkills.reduce(
+      (acc, { type, value }) => {
+        acc[type].push(value);
+        return acc;
+      },
+      { advanced: [], intermediate: [], novice: [] },
+    );
+    return { skills };
+  }
+
   async get() {
-    const [about, experience, education, advanced, intermediate, novice] =
-      await Promise.all([
-        this.getExistAbout(),
-        this.educationRepository.find(),
-        this.experienceRepository.find(),
-        this.skillsRepository.find({
-          where: {
-            type: SKILLS_TYPE.advanced,
-          },
-        }),
-        this.skillsRepository.find({
-          where: {
-            type: SKILLS_TYPE.intermediate,
-          },
-        }),
-        this.skillsRepository.find({
-          where: {
-            type: SKILLS_TYPE.novice,
-          },
-        }),
-      ]);
+    const [about, experience, education, allSkills] = await Promise.all([
+      this.getExistAbout(),
+      this.educationRepository.find(),
+      this.experienceRepository.find(),
+      this.skillsRepository.find(),
+    ]);
 
     return {
       ...about,
-      skills: { advanced, intermediate, novice },
+      ...this.orderSkills(allSkills),
       experience,
       education,
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} about`;
-  }
+  async updateSkills({
+    skills: { advanced, intermediate, novice },
+  }: UpdateSkillsDto) {
+    await this.skillsRepository.clear();
 
-  update(id: number, updateAboutDto: UpdateAboutDto) {
-    return `This action updates a #${id} about`;
-  }
+    const advancedData = advanced.map((value) =>
+      this.skillsRepository.create({ type: SKILLS_TYPE.advanced, value }),
+    );
+    const intermediateData = intermediate.map((value) =>
+      this.skillsRepository.create({ type: SKILLS_TYPE.intermediate, value }),
+    );
+    const noviceData = novice.map((value) =>
+      this.skillsRepository.create({ type: SKILLS_TYPE.novice, value }),
+    );
 
-  remove(id: number) {
-    return `This action removes a #${id} about`;
+    const allSkills = await this.skillsRepository.save([
+      ...advancedData,
+      ...intermediateData,
+      ...noviceData,
+    ]);
+
+    return this.orderSkills(allSkills);
   }
 }
