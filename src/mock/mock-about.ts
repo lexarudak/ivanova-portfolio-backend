@@ -16,6 +16,7 @@ export const MOCK_OTHER = {
   },
   experience: [
     {
+      id: '1',
       title: 'L80',
       location: 'Almaty, Kazakhstan',
       position: 'Architect',
@@ -28,6 +29,7 @@ export const MOCK_OTHER = {
       ],
     },
     {
+      id: '2',
       title: 'LEVEL80 | architects',
       location: 'Minsk, Belarus',
       position: 'Architect',
@@ -40,6 +42,7 @@ export const MOCK_OTHER = {
       ],
     },
     {
+      id: '3',
       title: 'Teltsov&partners',
       location: 'Minsk, Belarus',
       position: 'Architect',

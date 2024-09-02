@@ -1,15 +1,9 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { About } from './about.entity';
 
 @Entity()
 export class Experience {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: string;
 
   @Column()
@@ -29,6 +23,9 @@ export class Experience {
 
   @Column()
   period: string;
+
+  @Column({ default: true })
+  isSaved: boolean;
 
   @Column('json')
   achievements: string[];

@@ -1,5 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 import { SkillsData } from 'src/shared/types';
+import { Experience } from '../entities/experience.entity';
 
 export class CreateInfoDto {
   @IsNotEmpty()
@@ -21,4 +22,8 @@ export class UpdateAboutDto {
 
 export class UpdateSkillsDto {
   skills: SkillsData;
+}
+
+export class UpdateExperienceDto {
+  experience: Experience;
 }

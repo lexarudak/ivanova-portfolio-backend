@@ -15,6 +15,7 @@ export type Block = {
 };
 
 export type ExperienceData = {
+  id?: string;
   title: string;
   location: string;
   position: string;

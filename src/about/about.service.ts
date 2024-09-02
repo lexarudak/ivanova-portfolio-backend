@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { About } from './entities/about.entity';
 import { Repository } from 'typeorm';
 import { Education } from './entities/education.entity';
 import { Experience } from './entities/experience.entity';
-import { MOCK_ABOUT } from 'src/mock/mock-about';
+import { MOCK_ABOUT, MOCK_OTHER } from 'src/mock/mock-about';
 import { Skills } from './entities/skills.entity';
 import { SKILLS_TYPE } from 'src/shared/constants';
 import {
   CreateInfoDto,
   UpdateAboutDto,
+  UpdateExperienceDto,
   UpdateSkillsDto,
 } from './dto/about.dto';
 
@@ -72,15 +73,17 @@ export class AboutService {
   async get() {
     const [about, experience, education, allSkills] = await Promise.all([
       this.getExistAbout(),
-      this.educationRepository.find(),
       this.experienceRepository.find(),
+      this.educationRepository.find(),
       this.skillsRepository.find(),
     ]);
+
+    console.log(experience);
 
     return {
       ...about,
       ...this.orderSkills(allSkills),
-      experience,
+      experience: experience.length ? experience : MOCK_OTHER.experience,
       education,
     };
   }
@@ -107,5 +110,22 @@ export class AboutService {
     ]);
 
     return this.orderSkills(allSkills);
+  }
+
+  async updateExperience({ experience }: UpdateExperienceDto) {
+    const updatedExperience = this.experienceRepository.create({
+      ...experience,
+      isSaved: true,
+    });
+
+    return await this.experienceRepository.save(updatedExperience);
+  }
+
+  async deleteExperience(id: string) {
+    const result = await this.experienceRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Experience with ID "${id}" not found`);
+    }
+    return { id };
   }
 }

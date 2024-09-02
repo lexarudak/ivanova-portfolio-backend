@@ -1,6 +1,18 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { AboutService } from './about.service';
-import { UpdateAboutDto, UpdateSkillsDto } from './dto/about.dto';
+import {
+  UpdateAboutDto,
+  UpdateExperienceDto,
+  UpdateSkillsDto,
+} from './dto/about.dto';
 
 @Controller('about')
 export class AboutController {
@@ -19,5 +31,15 @@ export class AboutController {
   @Get()
   get() {
     return this.aboutService.get();
+  }
+
+  @Patch('experience')
+  updateExperience(@Body() updateExperienceDto: UpdateExperienceDto) {
+    return this.aboutService.updateExperience(updateExperienceDto);
+  }
+
+  @Delete('experience/:id')
+  deleteExperience(@Param('id') id: string) {
+    return this.aboutService.deleteExperience(id);
   }
 }
