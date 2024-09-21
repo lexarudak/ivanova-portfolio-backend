@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { About } from './entities/about.entity';
 import { Repository } from 'typeorm';
@@ -11,6 +11,7 @@ import {
   CreateInfoDto,
   UpdateAboutDto,
   UpdateExperienceDto,
+  UpdateExperienceOrderDto,
   UpdateSkillsDto,
 } from './dto/about.dto';
 
@@ -33,9 +34,11 @@ export class AboutService {
   }
 
   async getExistAbout() {
-    const existAbout = await this.aboutRepository.findBy({
+    const [existAbout] = await this.aboutRepository.findBy({
       id: 'about',
     });
+
+    console.log(existAbout);
 
     return { ...this.initialAbout, ...existAbout };
   }
@@ -78,8 +81,6 @@ export class AboutService {
       this.skillsRepository.find(),
     ]);
 
-    console.log(experience);
-
     return {
       ...about,
       ...this.orderSkills(allSkills),
@@ -113,19 +114,45 @@ export class AboutService {
   }
 
   async updateExperience({ experience }: UpdateExperienceDto) {
+    const currentAbout = await this.getExistAbout();
+    const { experienceOrder } = currentAbout;
     const updatedExperience = this.experienceRepository.create({
       ...experience,
       isSaved: true,
     });
 
+    if (!experienceOrder.includes(experience.id)) {
+      await this.aboutRepository.save({
+        ...currentAbout,
+        experienceOrder: `${experience.id},${experienceOrder}`,
+      });
+    }
     return await this.experienceRepository.save(updatedExperience);
   }
 
   async deleteExperience(id: string) {
-    const result = await this.experienceRepository.delete(id);
+    const [result, currentAbout] = await Promise.all([
+      this.experienceRepository.delete(id),
+      this.getExistAbout(),
+    ]);
+
+    const experienceOrder = currentAbout.experienceOrder
+      .split(',')
+      .filter((orderId) => orderId !== id)
+      .toString();
+
+    await this.aboutRepository.save({ ...currentAbout, experienceOrder });
+
     if (result.affected === 0) {
-      throw new NotFoundException(`Experience with ID "${id}" not found`);
+      console.log(`Experience with ID "${id}" not found`);
     }
-    return { id };
+    return { id, experienceOrder };
+  }
+
+  async updateExperienceOrder({ newOrder }: UpdateExperienceOrderDto) {
+    const experienceOrder = newOrder.toString();
+    const currentAbout = await this.getExistAbout();
+    await this.aboutRepository.save({ ...currentAbout, experienceOrder });
+    return { experienceOrder };
   }
 }

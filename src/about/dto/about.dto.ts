@@ -27,3 +27,7 @@ export class UpdateSkillsDto {
 export class UpdateExperienceDto {
   experience: Experience;
 }
+
+export class UpdateExperienceOrderDto {
+  newOrder: string[];
+}

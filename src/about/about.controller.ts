@@ -11,6 +11,7 @@ import { AboutService } from './about.service';
 import {
   UpdateAboutDto,
   UpdateExperienceDto,
+  UpdateExperienceOrderDto,
   UpdateSkillsDto,
 } from './dto/about.dto';
 
@@ -36,6 +37,13 @@ export class AboutController {
   @Patch('experience')
   updateExperience(@Body() updateExperienceDto: UpdateExperienceDto) {
     return this.aboutService.updateExperience(updateExperienceDto);
+  }
+
+  @Patch('experience/order')
+  updateExperienceOder(
+    @Body() updateExperienceOrderDto: UpdateExperienceOrderDto,
+  ) {
+    return this.aboutService.updateExperienceOrder(updateExperienceOrderDto);
   }
 
   @Delete('experience/:id')
