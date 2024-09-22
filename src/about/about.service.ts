@@ -10,8 +10,9 @@ import { SKILLS_TYPE } from 'src/shared/constants';
 import {
   CreateInfoDto,
   UpdateAboutDto,
+  UpdateEducationDto,
   UpdateExperienceDto,
-  UpdateExperienceOrderDto,
+  UpdateOrderDto,
   UpdateSkillsDto,
 } from './dto/about.dto';
 
@@ -85,7 +86,7 @@ export class AboutService {
       ...about,
       ...this.orderSkills(allSkills),
       experience: experience.length ? experience : MOCK_OTHER.experience,
-      education,
+      education: education.length ? education : MOCK_OTHER.education,
     };
   }
 
@@ -121,13 +122,25 @@ export class AboutService {
       isSaved: true,
     });
 
-    if (!experienceOrder.includes(experience.id)) {
+    if (!experienceOrder) {
+      await this.aboutRepository.save({
+        ...currentAbout,
+        experienceOrder: experience.id,
+      });
+    } else if (!experienceOrder.includes(experience.id)) {
       await this.aboutRepository.save({
         ...currentAbout,
         experienceOrder: `${experience.id},${experienceOrder}`,
       });
     }
     return await this.experienceRepository.save(updatedExperience);
+  }
+
+  async updateExperienceOrder({ newOrder }: UpdateOrderDto) {
+    const experienceOrder = newOrder.toString();
+    const currentAbout = await this.getExistAbout();
+    await this.aboutRepository.save({ ...currentAbout, experienceOrder });
+    return { experienceOrder };
   }
 
   async deleteExperience(id: string) {
@@ -149,10 +162,51 @@ export class AboutService {
     return { id, experienceOrder };
   }
 
-  async updateExperienceOrder({ newOrder }: UpdateExperienceOrderDto) {
-    const experienceOrder = newOrder.toString();
+  async updateEducation({ education }: UpdateEducationDto) {
     const currentAbout = await this.getExistAbout();
-    await this.aboutRepository.save({ ...currentAbout, experienceOrder });
-    return { experienceOrder };
+    const { educationOrder } = currentAbout;
+    const updatedEducation = this.educationRepository.create({
+      ...education,
+      isSaved: true,
+    });
+
+    if (!educationOrder) {
+      await this.aboutRepository.save({
+        ...currentAbout,
+        educationOrder: education.id,
+      });
+    } else if (!educationOrder.includes(education.id)) {
+      await this.aboutRepository.save({
+        ...currentAbout,
+        educationOrder: `${education.id},${educationOrder}`,
+      });
+    }
+    return await this.educationRepository.save(updatedEducation);
+  }
+
+  async updateEducationOrder({ newOrder }: UpdateOrderDto) {
+    const educationOrder = newOrder.toString();
+    const currentAbout = await this.getExistAbout();
+    await this.aboutRepository.save({ ...currentAbout, educationOrder });
+    return { educationOrder };
+  }
+
+  async deleteEducation(id: string) {
+    const [result, currentAbout] = await Promise.all([
+      this.educationRepository.delete(id),
+      this.getExistAbout(),
+    ]);
+
+    const educationOrder = currentAbout.educationOrder
+      .split(',')
+      .filter((orderId) => orderId !== id)
+      .toString();
+
+    await this.aboutRepository.save({ ...currentAbout, educationOrder });
+
+    if (result.affected === 0) {
+      console.log(`Experience with ID "${id}" not found`);
+    }
+    return { id, educationOrder };
   }
 }

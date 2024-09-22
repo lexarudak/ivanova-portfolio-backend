@@ -10,8 +10,9 @@ import {
 import { AboutService } from './about.service';
 import {
   UpdateAboutDto,
+  UpdateEducationDto,
   UpdateExperienceDto,
-  UpdateExperienceOrderDto,
+  UpdateOrderDto,
   UpdateSkillsDto,
 } from './dto/about.dto';
 
@@ -40,14 +41,27 @@ export class AboutController {
   }
 
   @Patch('experience/order')
-  updateExperienceOder(
-    @Body() updateExperienceOrderDto: UpdateExperienceOrderDto,
-  ) {
+  updateExperienceOder(@Body() updateExperienceOrderDto: UpdateOrderDto) {
     return this.aboutService.updateExperienceOrder(updateExperienceOrderDto);
   }
 
   @Delete('experience/:id')
   deleteExperience(@Param('id') id: string) {
     return this.aboutService.deleteExperience(id);
+  }
+
+  @Patch('education')
+  updateEducation(@Body() updateEducationDto: UpdateEducationDto) {
+    return this.aboutService.updateEducation(updateEducationDto);
+  }
+
+  @Patch('education/order')
+  updateEducationOder(@Body() updateEducationOderDto: UpdateOrderDto) {
+    return this.aboutService.updateEducationOrder(updateEducationOderDto);
+  }
+
+  @Delete('education/:id')
+  deleteEducation(@Param('id') id: string) {
+    return this.aboutService.deleteEducation(id);
   }
 }

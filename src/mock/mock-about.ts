@@ -23,6 +23,7 @@ export const MOCK_OTHER = {
       time: 'Full-time',
       workType: 'Remote',
       period: 'June 2022 - Present',
+      isSaved: true,
       achievements: [
         'High-rise residential complex Concept Developing (3D Exterior Concept, Floor Plans, Side Plan)',
         'Private houses Developing (Construction Drawings, Interior Design, Floor Plans, Schematic Design, Exterior 3D Concept, Construction Administration)',
@@ -36,6 +37,7 @@ export const MOCK_OTHER = {
       time: 'Full-time',
       workType: 'Office / Remote',
       period: 'May 2020 - September 2021',
+      isSaved: true,
       achievements: [
         'High-rise residential complex Concept Developing (3D Exterior Concept, Floor Plans, Side Plan)',
         'Private houses Developing (Construction Drawings, Interior Design, Floor Plans, Schematic Design, Exterior 3D Concept, Construction Administration)',
@@ -49,6 +51,7 @@ export const MOCK_OTHER = {
       time: 'Full-time',
       workType: 'Office',
       period: 'November 2013 - April 2020',
+      isSaved: true,
       achievements: [
         'Helped the company move from AutoCAD to Revit',
         '12 Interior Designs that have been realized',
@@ -59,16 +62,20 @@ export const MOCK_OTHER = {
   ],
   education: [
     {
+      id: '55',
       title: 'Belorussian National Technical University',
       location: 'Minsk, Belarus',
       position: 'Bachelor of Architecture',
       period: 'September 2008 - June 2014',
+      isSaved: true,
     },
     {
+      id: '56',
       title: 'College of Architecture and Civil Engineering',
       location: 'Minsk, Belarus',
       position: 'Specialty - architect',
       period: 'September 2005 - May 2007',
+      isSaved: true,
     },
   ],
 };

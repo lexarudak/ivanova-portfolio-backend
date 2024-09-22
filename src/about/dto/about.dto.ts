@@ -1,6 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
 import { SkillsData } from 'src/shared/types';
 import { Experience } from '../entities/experience.entity';
+import { Education } from '../entities/education.entity';
 
 export class CreateInfoDto {
   @IsNotEmpty()
@@ -28,6 +29,10 @@ export class UpdateExperienceDto {
   experience: Experience;
 }
 
-export class UpdateExperienceOrderDto {
+export class UpdateEducationDto {
+  education: Education;
+}
+
+export class UpdateOrderDto {
   newOrder: string[];
 }

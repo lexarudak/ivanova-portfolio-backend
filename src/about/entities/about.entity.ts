@@ -26,6 +26,9 @@ export class About {
   @Column({ nullable: true })
   experienceOrder: string;
 
+  @Column({ nullable: true })
+  educationOrder: string;
+
   @OneToMany(() => Skills, ({ id }) => id)
   skills: Skills[];
 

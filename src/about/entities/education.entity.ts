@@ -15,6 +15,9 @@ export class Education {
   @Column()
   position: string;
 
+  @Column({ default: true })
+  isSaved: boolean;
+
   @Column()
   period: string;
 
