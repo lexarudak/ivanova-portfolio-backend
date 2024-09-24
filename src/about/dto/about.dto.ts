@@ -21,6 +21,10 @@ export class UpdateAboutDto {
   about: string;
 }
 
+export class UpdateLocationDto {
+  location: string;
+}
+
 export class UpdateSkillsDto {
   skills: SkillsData;
 }

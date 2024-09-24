@@ -12,6 +12,7 @@ import {
   UpdateAboutDto,
   UpdateEducationDto,
   UpdateExperienceDto,
+  UpdateLocationDto,
   UpdateOrderDto,
   UpdateSkillsDto,
 } from './dto/about.dto';
@@ -61,6 +62,13 @@ export class AboutService {
     const newAbout = { ...currentAbout, about };
     await this.aboutRepository.save(newAbout);
     return { about };
+  }
+
+  async updateLocation({ location }: UpdateLocationDto) {
+    const currentAbout = await this.getExistAbout();
+    const newAbout = { ...currentAbout, location };
+    await this.aboutRepository.save(newAbout);
+    return { location };
   }
 
   orderSkills(allSkills: Skills[]) {

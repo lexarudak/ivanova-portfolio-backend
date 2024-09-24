@@ -12,6 +12,7 @@ import {
   UpdateAboutDto,
   UpdateEducationDto,
   UpdateExperienceDto,
+  UpdateLocationDto,
   UpdateOrderDto,
   UpdateSkillsDto,
 } from './dto/about.dto';
@@ -28,6 +29,11 @@ export class AboutController {
   @Post('skills')
   updateSkills(@Body() skillsDto: UpdateSkillsDto) {
     return this.aboutService.updateSkills(skillsDto);
+  }
+
+  @Post('location')
+  updateLocation(@Body() locationDto: UpdateLocationDto) {
+    return this.aboutService.updateLocation(locationDto);
   }
 
   @Get()
