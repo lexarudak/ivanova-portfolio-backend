@@ -3,7 +3,11 @@ export const MOCK_ABOUT = {
   title: 'Darya Ivanova',
   image: '/ivanova.png',
   location: 'Almaty, Kazakhstan',
-  languages: ['English C1', 'Spanish B1', 'Russian Native'],
+  languages: [
+    { title: 'English', value: 'C1', id: 'lang1' },
+    { title: 'Spanish', value: 'B1', id: 'lang2' },
+    { title: 'Russian', value: 'Native', id: 'lang3' },
+  ],
   about:
     'As a young and driven architect with 8 years of experience using Revit, SketchUp, and Enscape, I have taken part in a wide range of projects, from large residential communities to private homes and apartments. Architecture plays a major role in my life and I am always eager to tackle new projects and challenges.',
 };

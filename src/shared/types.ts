@@ -31,3 +31,9 @@ export type SkillsData = {
   intermediate: string[];
   novice: string[];
 };
+
+export type TitleValue = {
+  id: string;
+  title: string;
+  value: string;
+};

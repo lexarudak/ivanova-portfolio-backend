@@ -12,6 +12,7 @@ import {
   UpdateAboutDto,
   UpdateEducationDto,
   UpdateExperienceDto,
+  UpdateLangDto,
   UpdateLocationDto,
   UpdateOrderDto,
   UpdateSkillsDto,
@@ -40,7 +41,7 @@ export class AboutService {
       id: 'about',
     });
 
-    console.log(existAbout);
+    console.log(existAbout.languages);
 
     return { ...this.initialAbout, ...existAbout };
   }
@@ -62,6 +63,13 @@ export class AboutService {
     const newAbout = { ...currentAbout, about };
     await this.aboutRepository.save(newAbout);
     return { about };
+  }
+
+  async updateLang({ languages }: UpdateLangDto) {
+    const currentAbout = await this.getExistAbout();
+    const newAbout = { ...currentAbout, languages };
+    await this.aboutRepository.save(newAbout);
+    return { languages };
   }
 
   async updateLocation({ location }: UpdateLocationDto) {

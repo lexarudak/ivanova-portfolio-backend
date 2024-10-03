@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Experience } from './experience.entity';
 import { Education } from './education.entity';
 import { Skills } from './skills.entity';
+import { TitleValue } from 'src/shared/types';
 
 @Entity()
 export class About {
@@ -18,7 +19,7 @@ export class About {
   location: string;
 
   @Column('json')
-  languages: string[];
+  languages: TitleValue[];
 
   @Column()
   about: string;

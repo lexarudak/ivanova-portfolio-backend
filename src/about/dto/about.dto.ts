@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-import { SkillsData } from 'src/shared/types';
+import { SkillsData, TitleValue } from 'src/shared/types';
 import { Experience } from '../entities/experience.entity';
 import { Education } from '../entities/education.entity';
 
@@ -23,6 +23,10 @@ export class UpdateAboutDto {
 
 export class UpdateLocationDto {
   location: string;
+}
+
+export class UpdateLangDto {
+  languages: TitleValue[];
 }
 
 export class UpdateSkillsDto {
